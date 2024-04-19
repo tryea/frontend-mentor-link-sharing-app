@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -8,6 +9,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        light_grey: "#FAFAFA",
+        grey: "#737373",
+        dark_grey: "#333333",
+        light_purple: "#EFEBFF",
+        purple: "#633CFF",
+        purple_hover: "#BEADFF",
+        borders: "#D9D9D9",
+        red: "#FF3939",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,6 +26,40 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+      addUtilities({
+        ".body-m": {
+          fontSize: "16px",
+          lineHeight: "1.5",
+          fontWeight: "400",
+        },
+
+        ".body-s": {
+          fontSize: "12px",
+          lineHeight: "1.5",
+          fontWeight: "400",
+        },
+
+        ".heading-m": {
+          fontSize: "32px",
+          lineHeight: "1.5",
+          fontWeight: "700",
+        },
+
+        ".heading-base": {
+          fontSize: "24px",
+          lineHeight: "1.5",
+          fontWeight: "700",
+        },
+
+        ".heading-s": {
+          fontSize: "16px",
+          lineHeight: "1.5",
+          fontWeight: "600",
+        },
+      });
+    }),
+  ],
 };
 export default config;
