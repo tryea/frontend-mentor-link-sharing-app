@@ -32,7 +32,7 @@ export default function FormInput(props: TFormInput) {
           type={props.type}
           value={props.value}
           placeholder="e.g. alex@email.com"
-          className="flex flex-1 pl-11 pr-4 items-center placeholder:text-grey text-dark_grey rounded-[8px] autofill:!bg-light_grey outline-none border border-borders"
+          className="flex flex-1 pl-11 pr-4 body-m items-center placeholder:text-grey text-dark_grey rounded-[8px] autofill:!bg-light_grey outline-none border border-borders"
         />
         {props.iconSrc && (
           <div className="absolute top-1/2 -translate-y-1/2 left-4 w-4 h-4">

@@ -47,14 +47,14 @@ export default function SignInForm() {
 
   // Display a form to capture the user's email and password
   return (
-    <div className="flex flex-col flex-1 h-svh p-8 bg-light_grey">
+    <div className="flex flex-col flex-1 h-svh p-8 bg-light_grey sm:items-center sm:justify-center ">
       <div className="relative w-[182.5px] h-10">
         <Image src={"/images/logo-devlinks-large.svg"} fill alt="brand logo" />
       </div>
 
-      <div className="mt-16 flex flex-col">
+      <div className="mt-16 flex flex-col sm:bg-white sm:p-10 sm:rounded-[12px] sm:mt-[51px]">
         <div className="flex flex-col gap-2">
-          <h1 className="heading-base text-dark_grey">Login</h1>
+          <h1 className="heading-base sm:heading-m text-dark_grey">Login</h1>
           <p className="body-m text-grey">
             Add your details below to get back into the app
           </p>
@@ -98,7 +98,7 @@ export default function SignInForm() {
           </button>
         </form>
 
-        <div className="flex flex-col items-center mt-6">
+        <div className="flex flex-col items-center mt-6 sm:flex-row sm:gap-1 sm:justify-center">
           <p className="text-grey body-m text-center">
             {`Don't have an account?`}
           </p>

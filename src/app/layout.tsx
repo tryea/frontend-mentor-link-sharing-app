@@ -4,7 +4,11 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { DeepPartial, LocalizationResource } from "@clerk/types";
 
-const instrumentSans = Instrument_Sans({ subsets: ["latin"], preload: true });
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  preload: true,
+  adjustFontFallback: true,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
