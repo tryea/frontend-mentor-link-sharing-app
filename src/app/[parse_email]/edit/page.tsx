@@ -43,7 +43,13 @@ export default function EditUserLinkPage() {
               + Add new link
             </button>
 
-            <div className="z-0 bg-light_grey p-5 gap-6 flex flex-col items-center rounded-[12px]">
+            <div
+              className={`z-0 ${
+                links.length === 0
+                  ? "bg-light_grey p-5  rounded-[12px]"
+                  : "bg-white"
+              } gap-6 flex flex-col items-center`}
+            >
               {links.length === 0 && (
                 <>
                   <div className="relative w-[124.77px] h-[80px]">
@@ -65,7 +71,10 @@ export default function EditUserLinkPage() {
               {links.length > 0 &&
                 links.map((link, index) => {
                   return (
-                    <div key={link.id} className="flex flex-col gap-3 w-full">
+                    <div
+                      key={link.id}
+                      className="flex flex-col gap-3 w-full bg-light_grey p-5 rounded-[12px]"
+                    >
                       <div className="flex flex-row w-full items-center justify-between">
                         <div className="flex flex-row items-center gap-2">
                           <IconDragAndDrop className="w-[12px] h-[6px] text-grey" />
