@@ -8,6 +8,7 @@ const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   preload: true,
   adjustFontFallback: true,
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

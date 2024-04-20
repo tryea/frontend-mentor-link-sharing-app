@@ -20,7 +20,7 @@ export type TFormInput = {
 
 export default function FormInput(props: TFormInput) {
   return (
-    <div className="flex flex-col gap-1 bg-light_grey">
+    <div className="flex flex-col gap-1">
       <label htmlFor={props.name} className="body-s text-dark_grey">
         {props.label}
       </label>

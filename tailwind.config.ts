@@ -27,6 +27,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require("tailwind-scrollbar"),
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({
         ".body-m": {
