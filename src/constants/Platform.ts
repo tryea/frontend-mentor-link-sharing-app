@@ -55,4 +55,4 @@ export const Platforms = [
     name: "Youtube",
     iconSrc: "/images/icon-youtube.svg",
   },
-] as const;
+];

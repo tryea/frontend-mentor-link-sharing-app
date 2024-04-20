@@ -3,6 +3,7 @@ import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { DeepPartial, LocalizationResource } from "@clerk/types";
+import { UserStoreProvider } from "@/context/User/Provider";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -35,9 +36,11 @@ export default function RootLayout({
 
   return (
     <ClerkProvider localization={localization}>
-      <html lang="en">
-        <body className={instrumentSans.className}>{children}</body>
-      </html>
+      <UserStoreProvider>
+        <html lang="en">
+          <body className={instrumentSans.className}>{children}</body>
+        </html>
+      </UserStoreProvider>
     </ClerkProvider>
   );
 }
