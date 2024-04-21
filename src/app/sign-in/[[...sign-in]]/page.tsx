@@ -63,6 +63,7 @@ export default function SignInForm() {
           <FormInput
             name="email"
             register={register}
+            required
             error={errors.email}
             type="email"
             placeholder="e.g. alex@email.com"
@@ -79,6 +80,7 @@ export default function SignInForm() {
             name="password"
             type="password"
             register={register}
+            required
             error={errors.password}
             placeholder="Enter your password"
             value={password}
