@@ -5,6 +5,15 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import FormInput from "@/components/FormInput";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export type SignInFormData = {
+  email: string;
+  password: string;
+};
 
 export default function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -12,37 +21,24 @@ export default function SignInForm() {
   const [password, setPassword] = React.useState("");
   const router = useRouter();
 
+  const signInFormSchema = z
+    .object({
+      email: z.string().min(1, `can't be empty`).email(),
+      password: z.string().min(8, "min 8 characters"),
+    })
+    .required();
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInFormSchema),
+  });
+
   // Handle the submission of the sign-in form
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isLoaded) {
-      return;
-    }
-
-    // Start the sign-in process using the email and password provided
-    try {
-      const completeSignIn = await signIn.create({
-        identifier: email,
-        password,
-      });
-
-      if (completeSignIn.status !== "complete") {
-        // The status can also be `needs_factor_on', 'needs_factor_two', or 'needs_identifier'
-        // Please see https://clerk.com/docs/references/react/use-sign-in#result-status for  more information
-        console.log(JSON.stringify(completeSignIn, null, 2));
-      }
-
-      if (completeSignIn.status === "complete") {
-        // If complete, user exists and provided password match -- set session active
-        await setActive({ session: completeSignIn.createdSessionId });
-        // Redirect the user to a post sign-in route
-        router.push("/");
-      }
-    } catch (err: any) {
-      // This can return an array of errors.
-      // See https://clerk.com/docs/custom-flows/error-handling to learn about error handling
-      console.error(JSON.stringify(err, null, 2));
-    }
+  const onSubmit = async (data: SignInFormData) => {
+    console.log(data);
   };
 
   // Display a form to capture the user's email and password
@@ -61,11 +57,13 @@ export default function SignInForm() {
         </div>
 
         <form
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-6 mt-10"
         >
           <FormInput
             name="email"
+            register={register}
+            error={errors.email}
             type="email"
             placeholder="e.g. alex@email.com"
             value={email}
@@ -80,6 +78,8 @@ export default function SignInForm() {
           <FormInput
             name="password"
             type="password"
+            register={register}
+            error={errors.password}
             placeholder="Enter your password"
             value={password}
             onChange={(e) => {
@@ -98,12 +98,15 @@ export default function SignInForm() {
           </button>
         </form>
 
-        <div className="flex flex-col items-center mt-6 sm:flex-row sm:gap-1 sm:justify-center">
+        <Link
+          href={"/sign-up"}
+          className="flex flex-col items-center mt-6 sm:flex-row sm:gap-1 sm:justify-center"
+        >
           <p className="text-grey body-m text-center">
             {`Don't have an account?`}
           </p>
           <p className="text-purple body-m">Create account</p>
-        </div>
+        </Link>
       </div>
     </div>
   );
