@@ -24,7 +24,6 @@ export type UserAction = {
 export type UserStore = UserState & UserAction;
 
 export const initUserStore = (): UserState => {
-  //   return { isLogin: false };
   return {
     isLogin: true,
     links: [],

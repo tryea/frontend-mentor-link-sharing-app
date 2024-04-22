@@ -11,6 +11,7 @@ type Platform = {
 
 type CustomSelectProps = {
   label: string;
+  value: string;
   options: Platform[];
   onChange: (value: Platform) => void;
 };
@@ -19,10 +20,13 @@ export default function CustomSelect({
   label,
   options,
   onChange,
+  value,
 }: CustomSelectProps) {
   gsap.registerPlugin(useGSAP);
 
-  const [selectedOption, setSelectedOption] = useState<Platform>(options[0]);
+  const [selectedOption, setSelectedOption] = useState<Platform>(
+    options.find((val) => val.name === value)!
+  );
   const [showOption, setShowOption] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement | null>(null);

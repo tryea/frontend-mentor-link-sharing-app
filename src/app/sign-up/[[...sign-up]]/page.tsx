@@ -123,7 +123,7 @@ export default function SignUpForm() {
               type="submit"
               className="w-full h-[46px] flex items-center justify-center rounded-[8px] bg-purple text-white heading-s"
             >
-              {loading ? "Create new account" : "Loading..."}
+              {!loading ? "Create new account" : "Loading..."}
             </button>
           </form>
 

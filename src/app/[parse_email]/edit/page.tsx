@@ -1,12 +1,9 @@
 "use client";
 
 import Button from "@/components/Button";
-import CustomSelect from "@/components/CustomSelect";
 import EditorContentContainer from "@/components/EditorContentContainer";
 import EditorNavbar from "@/components/EditorNavbar";
-import FormInput from "@/components/FormInput";
-import { IconDragAndDrop } from "@/components/Icons";
-import { Platforms } from "@/constants/Platform";
+import InputSharingLinkContainer from "@/components/InputSharingLinkContainer";
 import { useUserStore } from "@/context/User/useUser";
 import Image from "next/image";
 
@@ -71,40 +68,13 @@ export default function EditUserLinkPage() {
               {links.length > 0 &&
                 links.map((link, index) => {
                   return (
-                    <div
+                    <InputSharingLinkContainer
                       key={link.id}
-                      className="flex flex-col gap-3 w-full bg-light_grey p-5 rounded-[12px]"
-                    >
-                      <div className="flex flex-row w-full items-center justify-between">
-                        <div className="flex flex-row items-center gap-2">
-                          <IconDragAndDrop className="w-[12px] h-[6px] text-grey" />
-                          <p className="heading-s text-grey">
-                            Link #{index + 1}
-                          </p>
-                        </div>
-                        <div className="body-m text-grey">Remove</div>
-                      </div>
-
-                      <CustomSelect
-                        label="Platform"
-                        onChange={(platform) => {
-                          setPlatform(index, platform.name);
-                        }}
-                        options={Platforms}
-                      />
-
-                      <FormInput
-                        label="Link"
-                        iconSrc="/images/icon-links-header.svg"
-                        name="link"
-                        placeholder="e.g. https://www.github.com/johnappleseed"
-                        type="text"
-                        value={link.url}
-                        onChange={(e) => {
-                          setUrl(index, e.target.value);
-                        }}
-                      />
-                    </div>
+                      id={link.id}
+                      index={index}
+                      platform={link.platform}
+                      url={link.url}
+                    />
                   );
                 })}
             </div>
