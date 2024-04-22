@@ -5,11 +5,15 @@ import EditorContentContainer from "@/components/EditorContentContainer";
 import EditorNavbar from "@/components/EditorNavbar";
 import InputSharingLinkContainer from "@/components/InputSharingLinkContainer";
 import { useUserStore } from "@/context/User/useUser";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+
 import Image from "next/image";
 import { useRef } from "react";
 
 export default function EditUserLinkPage() {
   const { links, addLinks } = useUserStore((state) => state);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   const allLinksRef = useRef<HTMLDivElement | null>(null);
   const addNewLinkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,6 +25,45 @@ export default function EditUserLinkPage() {
       allLinksRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, 50);
   };
+  gsap.registerPlugin(useGSAP);
+
+  useGSAP(
+    () => {
+      gsap.to("#overlay", {
+        duration: 1,
+        backgroundImage: "linear-gradient(#EFEBFF, #33333355)",
+        ease: "none",
+        yoyo: true,
+        repeat: -1,
+        repeatDelay: 0,
+      });
+    },
+    {
+      scope: overlayRef,
+    }
+  );
+
+  if (!links) {
+    return (
+      <main className="flex  flex-col flex-1 h-svh max-h-svh bg-light_grey items-center justify-center">
+        <div
+          ref={overlayRef}
+          className="relative h-[128px] w-[128px] rounded-[12px]"
+        >
+          <Image
+            src={"/images/logo-devlinks-small.svg"}
+            width={128}
+            height={128}
+            alt={"brand logo"}
+          />
+          <div
+            id="overlay"
+            className="absolute z-20 left-0 top-0 h-[128px] w-[128px] rounded-[12px]"
+          />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col flex-1 h-svh max-h-svh bg-light_grey">
