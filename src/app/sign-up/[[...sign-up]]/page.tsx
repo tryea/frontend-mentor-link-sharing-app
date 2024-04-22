@@ -5,45 +5,48 @@ import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import FormInput from "@/components/FormInput";
+import { z, ZodType } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+export type SignUpFormData = {
+  email: string;
+  create_password: string;
+  confirm_password: string;
+};
 
 export default function SignUpForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
-  const [email, setEmail] = React.useState("");
-  const [createPassword, setCreatePassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
   const router = useRouter();
 
+  const SignUpFormSchema: ZodType<SignUpFormData> = z
+    .object({
+      email: z.string().email(),
+      create_password: z.string().min(8, { message: "min 8 characters" }),
+      confirm_password: z.string(),
+    })
+    .refine((data) => {
+      return (
+        data.confirm_password === data.create_password,
+        {
+          message: "Password and Confirm Password should similar",
+          path: ["confirm_password"],
+        }
+      );
+    });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setError,
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(SignUpFormSchema),
+  });
+
   // Handle the submission of the sign-in form
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isLoaded) {
-      return;
-    }
-
-    // Start the sign-in process using the email and password provided
-    try {
-      const completeSignIn = await signIn.create({
-        identifier: email,
-        password: createPassword,
-      });
-
-      if (completeSignIn.status !== "complete") {
-        // The status can also be `needs_factor_on', 'needs_factor_two', or 'needs_identifier'
-        // Please see https://clerk.com/docs/references/react/use-sign-in#result-status for  more information
-        console.log(JSON.stringify(completeSignIn, null, 2));
-      }
-
-      if (completeSignIn.status === "complete") {
-        // If complete, user exists and provided password match -- set session active
-        await setActive({ session: completeSignIn.createdSessionId });
-        // Redirect the user to a post sign-in route
-        router.push("/");
-      }
-    } catch (err: any) {
-      // This can return an array of errors.
-      // See https://clerk.com/docs/custom-flows/error-handling to learn about error handling
-      console.error(JSON.stringify(err, null, 2));
-    }
+  const onSubmit = async (data: SignUpFormData) => {
+    console.log(data);
   };
 
   // Display a form to capture the user's email and password
@@ -68,46 +71,37 @@ export default function SignUpForm() {
           </div>
 
           <form
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6 mt-10"
           >
             <FormInput
               name="email"
               type="email"
               placeholder="e.g. alex@email.com"
-              value={email}
-              onChange={(e) => {
-                e.preventDefault();
-                setEmail(e.target.value);
-              }}
               label="Email address"
               iconSrc="/images/icon-email.svg"
+              register={register}
+              error={errors.email}
             />
 
             <FormInput
               name="create_password"
               type="password"
               placeholder="At least .8 characters"
-              value={createPassword}
-              onChange={(e) => {
-                e.preventDefault();
-                setCreatePassword(e.target.value);
-              }}
               label="Create Password"
               iconSrc="/images/icon-password.svg"
+              register={register}
+              error={errors.create_password}
             />
 
             <FormInput
               name="confirm_password"
               type="password"
               placeholder="At least .8 characters"
-              value={confirmPassword}
-              onChange={(e) => {
-                e.preventDefault();
-                setConfirmPassword(e.target.value);
-              }}
               label="Confirm Password"
               iconSrc="/images/icon-password.svg"
+              register={register}
+              error={errors.confirm_password}
             />
 
             <button

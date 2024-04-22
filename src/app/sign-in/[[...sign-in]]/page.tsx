@@ -7,7 +7,7 @@ import Image from "next/image";
 import FormInput from "@/components/FormInput";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export type SignInFormData = {
@@ -17,29 +17,30 @@ export type SignInFormData = {
 
 export default function SignInForm() {
   const { isLoaded, signIn, setActive } = useSignIn();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const router = useRouter();
 
-  const signInFormSchema = z
-    .object({
-      email: z.string().min(1, `can't be empty`).email(),
-      password: z.string().min(8, "min 8 characters"),
-    })
-    .required();
+  const SignInFormSchema: ZodType<SignInFormData> = z.object({
+    email: z.string().email(),
+    password: z.string().min(8, { message: "min 8 characters" }),
+  });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
   } = useForm<SignInFormData>({
-    resolver: zodResolver(signInFormSchema),
+    resolver: zodResolver(SignInFormSchema),
   });
 
   // Handle the submission of the sign-in form
   const onSubmit = async (data: SignInFormData) => {
     console.log(data);
   };
+
+  React.useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   // Display a form to capture the user's email and password
   return (
@@ -61,17 +62,11 @@ export default function SignInForm() {
           className="flex flex-col gap-6 mt-10"
         >
           <FormInput
+            type="text"
+            placeholder="e.g. alex@email.com"
             name="email"
             register={register}
-            required
             error={errors.email}
-            type="email"
-            placeholder="e.g. alex@email.com"
-            value={email}
-            onChange={(e) => {
-              e.preventDefault();
-              setEmail(e.target.value);
-            }}
             label="Email address"
             iconSrc="/images/icon-email.svg"
           />
@@ -80,14 +75,8 @@ export default function SignInForm() {
             name="password"
             type="password"
             register={register}
-            required
             error={errors.password}
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => {
-              e.preventDefault();
-              setPassword(e.target.value);
-            }}
             label="Password"
             iconSrc="/images/icon-password.svg"
           />
