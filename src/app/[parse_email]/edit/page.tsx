@@ -5,6 +5,8 @@ import EditorContentContainer from "@/components/EditorContentContainer";
 import EditorNavbar from "@/components/EditorNavbar";
 import InputSharingLinkContainer from "@/components/InputSharingLinkContainer";
 import { useUserStore } from "@/context/User/useUser";
+import { addUserLinks, updateUserLinks } from "@/services/firebase";
+import { useAuth } from "@clerk/nextjs";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 
@@ -12,19 +14,60 @@ import Image from "next/image";
 import { useRef } from "react";
 
 export default function EditUserLinkPage() {
-  const { links, addLinks } = useUserStore((state) => state);
+  const { links, canSave, setId, addLinks } = useUserStore((state) => state);
+  const { getToken, userId } = useAuth();
+
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   const allLinksRef = useRef<HTMLDivElement | null>(null);
   const addNewLinkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    addLinks({ id: `${new Date().getTime()}`, platform: "", url: "" });
+    addLinks({
+      id: `${new Date().getTime()}`,
+      platform: "",
+      url: "",
+      fromLocal: true,
+    });
 
     setTimeout(() => {
       allLinksRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, 50);
   };
+
+  const onSaveHandler = async () => {
+    try {
+      const firebaseToken = await getToken({
+        template: "integration_firebase",
+      });
+      const allPromises = links!.map((link, index) => {
+        if (link.fromLocal) {
+          return addUserLinks(firebaseToken!, index, {
+            platform: link.platform,
+            url: link.url,
+            user_id: userId!,
+          });
+        }
+
+        return updateUserLinks(firebaseToken!, index, link.id, {
+          platform: link.platform,
+          url: link.url,
+          user_id: userId!,
+        });
+      });
+
+      const allLinks = await Promise.all(allPromises);
+
+      allLinks.forEach((link) => {
+        if (link) {
+          setId(link.index, link.doc.id);
+        }
+      });
+    } catch (err) {
+      console.log({ err });
+    }
+  };
+
   gsap.registerPlugin(useGSAP);
 
   useGSAP(
@@ -134,7 +177,9 @@ export default function EditUserLinkPage() {
         <div className="flex flex-col w-full">
           <hr className="h-px bg-borders w-full" />
           <div className="p-4">
-            <Button disabled>Save</Button>
+            <Button onClick={onSaveHandler} disabled={!canSave}>
+              Save
+            </Button>
           </div>
         </div>
       </EditorContentContainer>

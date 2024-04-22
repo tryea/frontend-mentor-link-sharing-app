@@ -5,6 +5,7 @@ export type UserLink = {
   id: string;
   platform: string;
   url: string;
+  fromLocal: boolean;
 };
 export type UserState = {
   email?: string;
@@ -16,6 +17,7 @@ export type UserAction = {
   addLinks: (newLink: UserLink) => void;
   setUrl: (index: number, url: string) => void;
   setPlatform: (index: number, platform: string) => void;
+  setId: (index: number, newId: string) => void;
 };
 
 export type UserStore = UserState & UserAction;
@@ -62,6 +64,17 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
         return {
           links: tempLinks,
           canSave: true,
+        };
+      }),
+    setId: (index, newId) =>
+      set((state) => {
+        const tempLinks = [...state.links!];
+        tempLinks[index].id = newId;
+        tempLinks[index].fromLocal = false;
+
+        return {
+          links: tempLinks,
+          canSave: false,
         };
       }),
   }));

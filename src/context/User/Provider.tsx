@@ -40,6 +40,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
           id: docId,
           platform: docData.platform,
           url: docData.url,
+          fromLocal: false,
         };
       });
 

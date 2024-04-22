@@ -1,10 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithCustomToken } from "firebase/auth";
 import {
+  addDoc,
   collection,
+  doc,
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -31,12 +34,57 @@ export async function findUserLinks(firebaseToken: string, userId: string) {
 
     const docRef = query(
       collection(db, "userLinks"),
-      where("uid", "==", userId)
+      where("user_id", "==", userId)
     );
 
     const userLinksDocSnap = await getDocs(docRef);
 
     return userLinksDocSnap.docs;
+  } catch (err: any) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export type TFirebaseLinkFormData = {
+  platform: string;
+  url: string;
+  user_id: string;
+};
+
+export async function addUserLinks(
+  firebaseToken: string,
+  index: number,
+  formData: TFirebaseLinkFormData
+) {
+  try {
+    const userCredentials = await signInWithCustomToken(auth, firebaseToken);
+
+    const docRef = collection(db, "userLinks");
+
+    const userLinksDocSnap = await addDoc(docRef, formData);
+
+    return { doc: userLinksDocSnap, index };
+  } catch (err: any) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export async function updateUserLinks(
+  firebaseToken: string,
+  index: number,
+  documentId: string,
+  formData: TFirebaseLinkFormData
+) {
+  try {
+    const userCredentials = await signInWithCustomToken(auth, firebaseToken);
+
+    const currentDocumentRef = doc(db, "userLinks", documentId);
+
+    const userLinksDocSnap = await updateDoc(currentDocumentRef, formData);
+
+    return;
   } catch (err: any) {
     console.log(err);
     throw err;
