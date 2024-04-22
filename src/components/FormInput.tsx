@@ -46,7 +46,7 @@ export default function FormInput(props: TFormInput) {
           placeholder={props.placeholder}
           className={`flex max-w-full pl-11 ${
             props.error
-              ? "pr-[110px] lg:pr-[190px] border-red"
+              ? "pr-[126px] lg:pr-[190px] border-red"
               : "pr-4 border-borders"
           } body-m w-full items-center placeholder:text-grey text-dark_grey rounded-[8px] autofill:!bg-light_grey outline-none border `}
         />

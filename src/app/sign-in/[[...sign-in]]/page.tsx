@@ -33,14 +33,32 @@ export default function SignInForm() {
     resolver: zodResolver(SignInFormSchema),
   });
 
+  if (!isLoaded) {
+    return;
+  }
   // Handle the submission of the sign-in form
   const onSubmit = async (data: SignInFormData) => {
     console.log(data);
-  };
 
-  React.useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: data.email,
+        password: data.password,
+      });
+
+      if (completeSignIn.status !== "complete") {
+        console.log(JSON.stringify(completeSignIn, null, 2));
+      }
+
+      if (completeSignIn.status === "complete") {
+        const parseEmail = data.email.split("@")[0];
+        setActive({ session: completeSignIn.createdSessionId });
+        router.replace(`/${parseEmail}/edit`);
+      }
+    } catch (error: any) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  };
 
   // Display a form to capture the user's email and password
   return (

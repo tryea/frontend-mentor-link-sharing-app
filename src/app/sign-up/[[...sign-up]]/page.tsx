@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import FormInput from "@/components/FormInput";
@@ -16,7 +16,8 @@ export type SignUpFormData = {
 };
 
 export default function SignUpForm() {
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { isLoaded, signUp } = useSignUp();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
   const SignUpFormSchema: ZodType<SignUpFormData> = z
@@ -25,16 +26,10 @@ export default function SignUpForm() {
       create_password: z.string().min(8, { message: "min 8 characters" }),
       confirm_password: z.string(),
     })
-    .refine((data) => {
-      return (
-        data.confirm_password === data.create_password,
-        {
-          message: "Password and Confirm Password should similar",
-          path: ["confirm_password"],
-        }
-      );
+    .refine((data) => data.confirm_password === data.create_password, {
+      message: "Please check again",
+      path: ["confirm_password"],
     });
-
   const {
     register,
     formState: { errors },
@@ -47,6 +42,26 @@ export default function SignUpForm() {
   // Handle the submission of the sign-in form
   const onSubmit = async (data: SignUpFormData) => {
     console.log(data);
+    try {
+      setLoading(true);
+      const completeSignUp = await signUp!.create({
+        emailAddress: data.email,
+        password: data.create_password,
+      });
+
+      if (completeSignUp.status !== "complete") {
+        setLoading(false);
+        console.log(JSON.stringify(completeSignUp, null, 2));
+      }
+
+      if (completeSignUp.status === "complete") {
+        setLoading(false);
+        router.replace("/sign-in");
+      }
+    } catch (error: any) {
+      setLoading(false);
+      console.error(JSON.stringify(error, null, 2));
+    }
   };
 
   // Display a form to capture the user's email and password
@@ -108,7 +123,7 @@ export default function SignUpForm() {
               type="submit"
               className="w-full h-[46px] flex items-center justify-center rounded-[8px] bg-purple text-white heading-s"
             >
-              Create new account
+              {loading ? "Create new account" : "Loading..."}
             </button>
           </form>
 
