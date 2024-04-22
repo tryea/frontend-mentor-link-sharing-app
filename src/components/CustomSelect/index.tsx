@@ -25,7 +25,7 @@ export default function CustomSelect({
   gsap.registerPlugin(useGSAP);
 
   const [selectedOption, setSelectedOption] = useState<Platform>(
-    options.find((val) => val.name === value)!
+    options.find((val) => val.name === value) || options[0]
   );
   const [showOption, setShowOption] = useState<boolean>(false);
 

@@ -6,14 +6,20 @@ import EditorNavbar from "@/components/EditorNavbar";
 import InputSharingLinkContainer from "@/components/InputSharingLinkContainer";
 import { useUserStore } from "@/context/User/useUser";
 import Image from "next/image";
+import { useRef } from "react";
 
 export default function EditUserLinkPage() {
-  const { isLogin, email, links, token, addLinks, setUrl, setPlatform } =
-    useUserStore((state) => state);
+  const { links, addLinks } = useUserStore((state) => state);
+
+  const allLinksRef = useRef<HTMLDivElement | null>(null);
   const addNewLinkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     addLinks({ id: `${new Date().getTime()}`, platform: "", url: "" });
+
+    setTimeout(() => {
+      allLinksRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, 50);
   };
 
   return (
@@ -41,6 +47,7 @@ export default function EditUserLinkPage() {
             </button>
 
             <div
+              ref={allLinksRef}
               className={`z-0 ${
                 links.length === 0
                   ? "bg-light_grey p-5  rounded-[12px]"
