@@ -85,12 +85,7 @@ export default function CustomSelect({
           onClick={toggleShowOption}
           className="z-30 rounded-[8px] body-m text-dark_grey flex flex-row gap-2 items-center bg-white py-3 px-4 border border-borders"
         >
-          <Image
-            src={selectedOption.iconSrc}
-            alt={`icon-${selectedOption.name}`}
-            width={16}
-            height={16}
-          />
+          <selectedOption.iconSrc />
           <div className="flex flex-1">{selectedOption.name}</div>
           <IconChevronDown id="chevron-option" />
         </div>
@@ -109,12 +104,7 @@ export default function CustomSelect({
                   key={`option-${plat.name}`}
                   className="body-m text-dark_grey flex flex-row gap-2 items-center w-full"
                 >
-                  <Image
-                    src={plat.iconSrc}
-                    alt={`icon-${plat.name}`}
-                    width={16}
-                    height={16}
-                  />
+                  <plat.iconSrc />
                   {plat.name}
                 </div>
                 {idx < options.length - 1 && (

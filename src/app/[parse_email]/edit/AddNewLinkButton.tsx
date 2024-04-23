@@ -1,5 +1,6 @@
 "use client";
 
+import { Platforms } from "@/constants/Platform";
 import { useUserStore } from "@/context/User/useUser";
 import { MutableRefObject } from "react";
 
@@ -16,7 +17,7 @@ export default function AddNewLinkButton({
 
     addLinks({
       id: `${new Date().getTime()}`,
-      platform: "",
+      platform: Platforms[0].name,
       url: "",
       fromLocal: true,
     });

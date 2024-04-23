@@ -13,9 +13,12 @@ import AddNewLinkButton from "./AddNewLinkButton";
 import LinkFooterCard from "./LinkFooterCard";
 import EditLinkOverlay from "./EditLinkOverlay";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+import { Platforms } from "@/constants/Platform";
 
 export default function EditUserLinkPage() {
   const { links } = useUserStore((state) => state);
+  const { isLoaded, user } = useUser();
 
   const allLinksRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,6 +38,63 @@ export default function EditUserLinkPage() {
               fill
               sizes="(max-height: 750px) 153.5px, 315.5px, (max-height: 900px) 230.25px, 473.25px, (min-height: 900px) 307px, 631px"
             />
+            {user?.imageUrl && (
+              <div className="absolute top-[46.5px] left-[29.3px] w-[calc(100%-60px)] flex items-center justify-center">
+                <div className="relative w-[68px] h-[68px] rounded-full border-[4px] border-purple">
+                  <Image
+                    alt="photo-profile"
+                    src={user?.imageUrl}
+                    fill
+                    className="rounded-full"
+                  />
+                </div>
+              </div>
+            )}
+            {user?.fullName && (
+              <div className="absolute top-[133.7px] left-[29.3px] w-[calc(100%-60px)] h-[11.1px] text-dark_grey text-[10px] text-center bg-white leading-[10px] font-semibold">
+                {user?.fullName}
+              </div>
+            )}
+
+            {user?.primaryEmailAddress?.emailAddress && (
+              <div className="absolute top-[151.8px] left-[29.3px] w-[calc(100%-60px)] h-[8px] text-grey text-[8px] text-center bg-white leading-[8px] font-normal">
+                {user?.primaryEmailAddress?.emailAddress}
+              </div>
+            )}
+
+            {links.length > 0 && (
+              <div className="absolute top-[200.7px] left-[29.3px] w-[calc(100%-59.6px)] text-white text-[8px] text-center leading-[8px] font-normal flex flex-col gap-[14.4px]">
+                {links
+                  .filter((val) => val.url !== "")
+                  .slice(0, 5)
+                  .map((link) => {
+                    const platform = Platforms.find(
+                      (plat) => plat.name === link.platform
+                    )!;
+                    return (
+                      <div
+                        key={`${link.id}`}
+                        className={`h-[31.6px] w-full rounded-[6px] flex items-center justify-between px-4`}
+                        style={{
+                          backgroundColor:
+                            platform.backgroundColor || "#633CFF",
+                        }}
+                      >
+                        <div className="flex flex-row gap-2 items-center">
+                          <platform.iconSrc />
+                          <p>{link.platform}</p>
+                        </div>
+                        <Image
+                          src={"/images/icon-arrow-right.svg"}
+                          alt="icon"
+                          width={16}
+                          height={16}
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
           </div>
         </div>
         <EditorContentContainer>

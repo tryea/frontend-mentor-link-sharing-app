@@ -1,58 +1,89 @@
+import {
+  IconCodePen,
+  IconCodeWars,
+  IconDevto,
+  IconFacebook,
+  IconFreecodecamp,
+  IconFrontendMentor,
+  IconGithub,
+  IconGitlab,
+  IconHashnode,
+  IconLinkedin,
+  IconStackOverflow,
+  IconTwitch,
+  IconTwitter,
+  IconYoutube,
+} from "@/components/Icons";
+
 export const Platforms = [
   {
     name: "Codepen",
-    iconSrc: "/images/icon-codepen.svg",
+    iconSrc: IconCodePen,
+    backgroundColor: "#000000",
   },
   {
     name: "Codewars",
-    iconSrc: "/images/icon-codewars.svg",
+    iconSrc: IconCodeWars,
+    backgroundColor: "#9B9B9B",
   },
   {
     name: "Devto",
-    iconSrc: "/images/icon-devto.svg",
+    iconSrc: IconDevto,
+    backgroundColor: "#0A0A0A",
   },
   {
     name: "Facebook",
-    iconSrc: "/images/icon-facebook.svg",
+    iconSrc: IconFacebook,
+    backgroundColor: "#3B5998",
   },
   {
     name: "Freecodecamp",
-    iconSrc: "/images/icon-freecodecamp.svg",
+    iconSrc: IconFreecodecamp,
+    backgroundColor: "#006400",
   },
   {
     name: "Frontend Mentor",
-    iconSrc: "/images/icon-frontend-mentor.svg",
+    iconSrc: IconFrontendMentor,
+    backgroundColor: "#1F2833",
   },
   {
     name: "Github",
-    iconSrc: "/images/icon-github.svg",
+    iconSrc: IconGithub,
+    backgroundColor: "#1A1A1A",
   },
   {
     name: "Gitlab",
-    iconSrc: "/images/icon-gitlab.svg",
+    iconSrc: IconGitlab,
+    backgroundColor: "#FC6D26",
   },
   {
     name: "Hashnode",
-    iconSrc: "/images/icon-hashnode.svg",
+    iconSrc: IconHashnode,
+    backgroundColor: "#2962FF",
   },
   {
     name: "Linkedin",
-    iconSrc: "/images/icon-linkedin.svg",
+    iconSrc: IconLinkedin,
+    backgroundColor: "#0077B5",
   },
   {
     name: "Stack Overflow",
-    iconSrc: "/images/icon-stack-overflow.svg",
+    iconSrc: IconStackOverflow,
+    backgroundColor: "#F48024",
   },
   {
     name: "Twitch",
-    iconSrc: "/images/icon-twitch.svg",
+    iconSrc: IconTwitch,
+    backgroundColor: "#6441A5",
   },
   {
     name: "Twitter",
-    iconSrc: "/images/icon-twitter.svg",
+    iconSrc: IconTwitter,
+    backgroundColor: "#1DA1F2",
   },
   {
     name: "Youtube",
-    iconSrc: "/images/icon-youtube.svg",
+    iconSrc: IconYoutube,
+    backgroundColor: "#FF0000",
   },
 ];

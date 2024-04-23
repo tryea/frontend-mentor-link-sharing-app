@@ -1,6 +1,7 @@
 import IconArrowRight from "@/../public/images/icon-arrow-right.svg";
 import IconChangesSaved from "@/../public/images/icon-changes-saved.svg";
 import IconChevronDown from "@/../public/images/icon-chevron-down.svg";
+import IconCodePen from "@/../public/images/icon-codepen.svg";
 import IconCodeWars from "@/../public/images/icon-codewars.svg";
 import IconDevto from "@/../public/images/icon-devto.svg";
 import IconDragAndDrop from "@/../public/images/icon-drag-and-drop.svg";
@@ -27,6 +28,7 @@ export {
   IconArrowRight,
   IconChangesSaved,
   IconChevronDown,
+  IconCodePen,
   IconCodeWars,
   IconDevto,
   IconDragAndDrop,
