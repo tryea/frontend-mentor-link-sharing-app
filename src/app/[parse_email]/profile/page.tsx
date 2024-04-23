@@ -5,8 +5,12 @@ import EditorContentContainer from "@/components/EditorContentContainer";
 import EditorNavbar from "@/components/EditorNavbar";
 import { IconUploadImage } from "@/components/Icons";
 import ProfileInput from "@/components/ProfileInput";
+import { useUser } from "@clerk/nextjs";
+import { useGSAP } from "@gsap/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { gsap } from "gsap";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,22 +20,91 @@ export type EditUserProfileFormData = {
   email: string;
 };
 export default function EditUserProfilePage() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const { isLoaded, user } = useUser();
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  const [loading, setLoading] = useState(false);
 
   const EditUserProfileFormSchema = z.object({
     first_name: z.string().min(1, "can't be empty"),
     last_name: z.string().min(1, "can't be empty"),
-    email: z.string().email(),
+    email: z.string().min(1).email(),
   });
 
   const {
     register,
     formState: { errors },
+    handleSubmit,
+    setValue,
   } = useForm<EditUserProfileFormData>({
     resolver: zodResolver(EditUserProfileFormSchema),
   });
+
+  useEffect(() => {
+    if (isLoaded) {
+      const { firstName, lastName, primaryEmailAddress } = user!;
+
+      setValue("first_name", firstName || "");
+      setValue("last_name", lastName || "");
+      setValue("email", primaryEmailAddress!.emailAddress);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded]);
+
+  const onSubmit = async (data: EditUserProfileFormData) => {
+    console.log(data);
+    try {
+      setLoading(true);
+      await user!.update({
+        firstName: data.first_name,
+        lastName: data.last_name,
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  gsap.registerPlugin(useGSAP);
+
+  useGSAP(
+    () => {
+      gsap.to("#overlay", {
+        duration: 1,
+        backgroundImage: "linear-gradient(#EFEBFF, #33333355)",
+        ease: "none",
+        yoyo: true,
+        repeat: -1,
+        repeatDelay: 0,
+      });
+    },
+    {
+      scope: overlayRef,
+    }
+  );
+
+  if (!isLoaded) {
+    return (
+      <main className="flex  flex-col flex-1 h-svh max-h-svh bg-light_grey items-center justify-center">
+        <div
+          ref={overlayRef}
+          className="relative h-[128px] w-[128px] rounded-[12px]"
+        >
+          <Image
+            src={"/images/logo-devlinks-small.svg"}
+            width={128}
+            height={128}
+            alt={"brand logo"}
+          />
+          <div
+            id="overlay"
+            className="absolute z-20 left-0 top-0 h-[128px] w-[128px] rounded-[12px]"
+          />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col flex-1 h-svh max-h-svh bg-light_grey">
@@ -62,16 +135,16 @@ export default function EditUserProfilePage() {
             </div>
           </div>
 
-          <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
+          <form
+            id="editUserProfileForm"
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]"
+          >
             <ProfileInput
               register={register}
               error={errors.first_name}
               label="First name*"
               placeholder="First name"
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
               name="first_name"
             />
 
@@ -80,30 +153,25 @@ export default function EditUserProfilePage() {
               error={errors.last_name}
               label="Last name*"
               placeholder="Last name"
-              value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
               name="last_name"
             />
 
             <ProfileInput
+              disabled
               register={register}
               error={errors.email}
               label="Email"
               placeholder="Email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
               name="email"
             />
-          </div>
+          </form>
         </div>
         <div className="flex flex-col w-full">
           <hr className="h-px bg-borders w-full" />
           <div className="p-4">
-            <Button>Save</Button>
+            <Button formId="editUserProfileForm">
+              {loading ? "Loading..." : "Save"}
+            </Button>
           </div>
         </div>
       </EditorContentContainer>

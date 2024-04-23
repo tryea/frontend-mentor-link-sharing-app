@@ -1,17 +1,14 @@
 "use client";
 
-import { register } from "module";
-import { ChangeEvent } from "react";
 import { FieldError, UseFormRegister } from "react-hook-form";
 
 export type TProfileInputProps = {
   label: string;
-  value: string;
   name: string;
   placeholder: string;
   error: FieldError | undefined;
   register: UseFormRegister<any>;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 };
 
 export default function ProfileInput(props: TProfileInputProps) {
@@ -23,11 +20,8 @@ export default function ProfileInput(props: TProfileInputProps) {
       </label>
       <input
         {...rest}
+        disabled={props.disabled}
         placeholder={props.placeholder}
-        onChange={(e) => {
-          props.onChange(e);
-          onChange(e);
-        }}
         className="border border-borders text-dark_grey bg-white py-3 px-4 body-m rounded-[8px]"
       />
       {props.error && <p className="text-red body-s">{props.error.message}</p>}

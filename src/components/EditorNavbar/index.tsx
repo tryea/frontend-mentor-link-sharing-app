@@ -12,8 +12,6 @@ export default function EditorNavbar() {
   const path = usePathname();
   const router = useRouter();
 
-  console.log({ path });
-
   const isEditLink = path.includes("/edit");
 
   return (
