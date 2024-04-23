@@ -24,6 +24,17 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        "short-height-desktop": {
+          raw: "(max-height: 750px)",
+        },
+        "medium-height-desktop": {
+          raw: "(min-height: 750px) and (max-height: 900px)",
+        },
+        "tall-height-desktop": {
+          raw: "(min-height: 900px)",
+        },
+      },
     },
   },
   plugins: [

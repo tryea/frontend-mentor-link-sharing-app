@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ReactNode } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -6,7 +6,7 @@ import { IconChevronDown } from "../Icons";
 
 type Platform = {
   name: string;
-  iconSrc: string;
+  iconSrc: any;
 };
 
 type CustomSelectProps = {
@@ -85,7 +85,7 @@ export default function CustomSelect({
           onClick={toggleShowOption}
           className="z-30 rounded-[8px] body-m text-dark_grey flex flex-row gap-2 items-center bg-white py-3 px-4 border border-borders"
         >
-          <selectedOption.iconSrc />
+          <selectedOption.iconSrc className="w-4 h-4" />
           <div className="flex flex-1">{selectedOption.name}</div>
           <IconChevronDown id="chevron-option" />
         </div>
@@ -104,7 +104,7 @@ export default function CustomSelect({
                   key={`option-${plat.name}`}
                   className="body-m text-dark_grey flex flex-row gap-2 items-center w-full"
                 >
-                  <plat.iconSrc />
+                  <plat.iconSrc className="w-4 h-4" />
                   {plat.name}
                 </div>
                 {idx < options.length - 1 && (
