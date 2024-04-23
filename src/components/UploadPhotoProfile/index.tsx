@@ -11,9 +11,6 @@ export type TUploadPhotoProfileProps = {
   onChange: (file: File | null) => void;
 };
 export default function UploadPhotoProfile(props: TUploadPhotoProfileProps) {
-  console.log(typeof props.value);
-  console.log(props.value);
-
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { ref, onChange, ...rest } = props.register(props.name);
@@ -24,8 +21,6 @@ export default function UploadPhotoProfile(props: TUploadPhotoProfileProps) {
   };
 
   useEffect(() => {
-    console.log({ loading });
-
     if (typeof props.value === "string") {
       setLoading(true);
     }

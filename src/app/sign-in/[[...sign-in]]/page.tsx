@@ -38,8 +38,6 @@ export default function SignInForm() {
   }
   // Handle the submission of the sign-in form
   const onSubmit = async (data: SignInFormData) => {
-    console.log(data);
-
     try {
       const completeSignIn = await signIn.create({
         identifier: data.email,

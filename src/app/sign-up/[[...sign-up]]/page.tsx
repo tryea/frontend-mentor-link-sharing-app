@@ -41,7 +41,6 @@ export default function SignUpForm() {
 
   // Handle the submission of the sign-in form
   const onSubmit = async (data: SignUpFormData) => {
-    console.log(data);
     try {
       setLoading(true);
       const completeSignUp = await signUp!.create({

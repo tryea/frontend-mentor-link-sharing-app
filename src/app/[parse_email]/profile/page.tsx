@@ -57,7 +57,6 @@ export default function EditUserProfilePage() {
   }, [isLoaded]);
 
   const onSubmit = async (data: EditUserProfileFormData) => {
-    console.log(data);
     try {
       setLoading(true);
 
