@@ -79,8 +79,8 @@ export default function EditUserProfilePage() {
 
   gsap.registerPlugin(useGSAP);
 
-  useGSAP(
-    () => {
+  useGSAP(() => {
+    if (overlayRef.current) {
       gsap.to("#overlay", {
         duration: 1,
         backgroundImage: "linear-gradient(#EFEBFF, #33333355)",
@@ -89,11 +89,8 @@ export default function EditUserProfilePage() {
         repeat: -1,
         repeatDelay: 0,
       });
-    },
-    {
-      scope: overlayRef,
     }
-  );
+  }, {});
 
   if (!isLoaded) {
     return (
