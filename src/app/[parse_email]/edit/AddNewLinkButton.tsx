@@ -33,7 +33,7 @@ export default function AddNewLinkButton({
     <button
       onClick={addNewLinkHandler}
       type="button"
-      className="border border-purple heading-s rounded-[8px] text-purple w-full px-[27px] py-[11px]"
+      className="border border-purple heading-s rounded-[8px] text-purple w-full px-[27px] py-[11px] hover:bg-purple_hover"
     >
       + Add new link
     </button>

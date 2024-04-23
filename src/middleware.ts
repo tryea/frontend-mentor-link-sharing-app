@@ -14,6 +14,10 @@ export default clerkMiddleware((auth, req) => {
   if (isAuthRoute(req) && userId !== null) {
     return NextResponse.redirect(new URL("/", req.url));
   }
+
+  if (isProtectedRoute(req) && userId === null) {
+    return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
 });
 
 export const config = {

@@ -40,9 +40,9 @@ export default function LinkFooterCard() {
     }
   };
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full sm:items-end">
       <hr className="h-px bg-borders w-full" />
-      <div className="p-4">
+      <div className="p-4 flex sm:justify-end sm:px-10 sm:py-6 [@media_(max-height:_750px)]:py-2">
         <Button onClick={onSaveHandler} disabled={!canSave}>
           Save
         </Button>

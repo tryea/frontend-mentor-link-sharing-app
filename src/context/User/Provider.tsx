@@ -49,8 +49,10 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       });
     };
 
-    getUserLinks();
-  }, []);
+    if (userId) {
+      getUserLinks();
+    }
+  }, [userId]);
 
   return (
     <UserStoreContext.Provider value={storeRef.current}>
