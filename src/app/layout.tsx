@@ -38,7 +38,11 @@ export default function RootLayout({
     <ClerkProvider localization={localization}>
       <UserStoreProvider>
         <html lang="en">
-          <body className={instrumentSans.className}>{children}</body>
+          <body
+            className={`${instrumentSans.className} overflow-hidden max-h-dvh`}
+          >
+            {children}
+          </body>
         </html>
       </UserStoreProvider>
     </ClerkProvider>
