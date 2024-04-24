@@ -7,6 +7,7 @@ import {
   IconPreviewHeader,
   IconProfileDetailsHeader,
 } from "../Icons";
+import Link from "next/link";
 
 export default function EditorNavbar() {
   const path = usePathname();
@@ -44,9 +45,13 @@ export default function EditorNavbar() {
           />
         </div>
 
-        <div className="py-[11px] px-[16px] border border-purple rounded-[8px] cursor-pointer">
-          <IconPreviewHeader className="w-5 h-5" />
-        </div>
+        <Link
+          href={"preview"}
+          className="py-[11px] px-[16px] border border-purple rounded-[8px] cursor-pointer"
+        >
+          <IconPreviewHeader className="w-5 h-5 lg:hidden" />
+          <p className="text-purple heading-s hidden lg:block">Preview</p>
+        </Link>
       </div>
     </div>
   );

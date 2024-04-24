@@ -26,11 +26,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
 
   useEffect(() => {
     const getUserLinks = async () => {
-      const firebaseToken = await getToken({
-        template: "integration_firebase",
-      });
-
-      const docs = await findUserLinks(firebaseToken!, userId!);
+      const docs = await findUserLinks(userId!);
 
       const links: UserLink[] = docs.map((doc) => {
         const docId = doc.id;

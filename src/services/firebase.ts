@@ -28,10 +28,8 @@ const db = getFirestore(app);
 // Connect to Firebase auth
 const auth = getAuth(app);
 
-export async function findUserLinks(firebaseToken: string, userId: string) {
+export async function findUserLinks(userId: string) {
   try {
-    const userCredentials = await signInWithCustomToken(auth, firebaseToken);
-
     const docRef = query(
       collection(db, "userLinks"),
       where("user_id", "==", userId)
@@ -41,7 +39,8 @@ export async function findUserLinks(firebaseToken: string, userId: string) {
 
     return userLinksDocSnap.docs;
   } catch (err: any) {
-    console.log(err);
+    console.log("error at findUserLinks");
+    console.log(JSON.stringify(err, null, 2));
     throw err;
   }
 }
@@ -87,6 +86,27 @@ export async function updateUserLinks(
     return;
   } catch (err: any) {
     console.log(err);
+    throw err;
+  }
+}
+
+export async function getUserIdFromUsername(username: string) {
+  try {
+    const docRef = query(
+      collection(db, "userData"),
+      where("username", "==", username)
+    );
+
+    const userDataDocSnap = await getDocs(docRef);
+    console.log({ userDataDocSnap: userDataDocSnap.docs });
+
+    const user_id = userDataDocSnap.docs[0]?.data().user_id;
+
+    return user_id;
+  } catch (err: any) {
+    console.log("error at getUserIdFromUsername");
+    console.log(JSON.stringify(err, null, 2));
+
     throw err;
   }
 }

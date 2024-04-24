@@ -28,10 +28,10 @@ export default function UploadPhotoProfile(props: TUploadPhotoProfileProps) {
   }, [props.value]);
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6 sm:flex-row items-center">
       <div
         onClick={onFileContainerClick}
-        className="relative w-[192px] h-[192px] bg-light_purple flex items-center justify-center gap-2 flex-col rounded-[12px]"
+        className="relative shrink-0 w-[192px] h-[192px] bg-light_purple flex items-center justify-center gap-2 flex-col rounded-[12px]"
       >
         {props.value ? (
           <>

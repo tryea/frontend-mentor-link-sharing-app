@@ -1,24 +1,18 @@
 "use client";
 
 import EditorContentContainer from "@/components/EditorContentContainer";
-import EditorNavbar from "@/components/EditorNavbar";
 import InputSharingLinkContainer from "@/components/InputSharingLinkContainer";
 import { useUserStore } from "@/context/User/useUser";
 
 import { useRef } from "react";
-import MainContainer from "../components/MainContainer";
 import LinkEmptyState from "./LinkEmptyState";
 import LinkHeaderCard from "./LinkHeaderCard";
 import AddNewLinkButton from "./AddNewLinkButton";
 import LinkFooterCard from "./LinkFooterCard";
 import EditLinkOverlay from "./EditLinkOverlay";
-import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
-import { Platforms } from "@/constants/Platform";
 
 export default function EditUserLinkPage() {
   const { links } = useUserStore((state) => state);
-  const { isLoaded, user } = useUser();
 
   const allLinksRef = useRef<HTMLDivElement | null>(null);
 

@@ -122,51 +122,57 @@ export default function EditUserProfilePage() {
         className="flex flex-1 bg-white flex-col gap-10 p-6 max-h-full overscroll-contain overflow-y-scroll scrollbar-none"
       >
         <div className="flex flex-col gap-2">
-          <h2 className="heading-base text-dark_grey">Customize your links</h2>
+          <h2 className="heading-base text-dark_grey sm:heading-m">
+            Customize your links
+          </h2>
           <p className="body-m text-grey">
             Add/edit/remove links below and then share all your profiles with
             the world!
           </p>
         </div>
 
-        <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
-          <label className="body-m text-grey">Profile picture</label>
-          <UploadPhotoProfile
-            name="photo_profile"
-            error={errors.photo_profile}
-            register={register}
-            value={file}
-            onChange={(file) => {
-              setFile(file);
-            }}
-          />
-        </div>
+        <div className="flex flex-col flex-1 gap-6">
+          <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px] sm:flex-row sm:gap-4 sm:items-center">
+            <label className="body-m text-grey sm:w-[240px]">
+              Profile picture
+            </label>
+            <UploadPhotoProfile
+              name="photo_profile"
+              error={errors.photo_profile}
+              register={register}
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+            />
+          </div>
 
-        <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
-          <ProfileInput
-            register={register}
-            error={errors.first_name}
-            label="First name*"
-            placeholder="First name"
-            name="first_name"
-          />
+          <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
+            <ProfileInput
+              register={register}
+              error={errors.first_name}
+              label="First name*"
+              placeholder="First name"
+              name="first_name"
+            />
 
-          <ProfileInput
-            register={register}
-            error={errors.last_name}
-            label="Last name*"
-            placeholder="Last name"
-            name="last_name"
-          />
+            <ProfileInput
+              register={register}
+              error={errors.last_name}
+              label="Last name*"
+              placeholder="Last name"
+              name="last_name"
+            />
 
-          <ProfileInput
-            disabled
-            register={register}
-            error={errors.email}
-            label="Email"
-            placeholder="Email"
-            name="email"
-          />
+            <ProfileInput
+              disabled
+              register={register}
+              error={errors.email}
+              label="Email"
+              placeholder="Email"
+              name="email"
+            />
+          </div>
         </div>
       </form>
       <div className="flex flex-col w-full">

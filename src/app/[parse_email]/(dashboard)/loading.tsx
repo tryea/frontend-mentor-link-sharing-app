@@ -1,11 +1,13 @@
+"use client";
+
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 
-import MainContainer from "../components/MainContainer";
+import MainContainer from "@/app/[parse_email]/components/MainContainer";
 import Image from "next/image";
 
-export default function EditLinkOverlay() {
+export default function Loading() {
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
