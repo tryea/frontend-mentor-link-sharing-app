@@ -18,7 +18,26 @@ export default function PreviewUserLinkSharingPage() {
 
   return (
     <MainContainer>
-      <div className="w-full h-fit sm:min-h-[357px] sm:bg-purple rounded-b-[32px] bg-transparent p-0 sm:p-6 short-height-desktop:min-h-[290px]" />
+      <div className="w-full h-fit sm:min-h-[357px] sm:bg-purple rounded-b-[32px] bg-transparent p-0 sm:p-6 short-height-desktop:min-h-[290px]">
+        <div className="bg-white p-4 pl-6 flex flex-row justify-between *:rounded-[8px] sm:rounded-[12px]">
+          <Link
+            href="edit"
+            className="flex px-[27px] py-[11px] border border-purple text-purple heading-s"
+          >
+            <button>Back to Editor</button>
+          </Link>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                window.location.href.replace("/preview", "")
+              );
+            }}
+            className="flex px-[27px] py-[11px] bg-purple text-white heading-s"
+          >
+            Share Link
+          </button>
+        </div>
+      </div>
       <div className="flex justify-center short-height-desktop:max-h-[calc(100%-145px)] z-10 flex-1 mt-[60px] sm:mt-[-129px] sm:max-h-[calc(100%-270px)] short-height-desktop:mt-[-170px] ">
         <div className="w-[237px] sm:w-[349px] sm:px-14 sm:py-12 short-height-desktop:px-10 short-height-desktop:py:py-8 sm:bg-white flex flex-col gap-[56px] short-height-desktop:gap-[32px] items-center sm:rounded-[24px] max-h-full">
           <div className="flex flex-col gap-[25px] items-center">
