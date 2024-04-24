@@ -115,73 +115,68 @@ export default function EditUserProfilePage() {
   }
 
   return (
-    <main className="flex flex-col flex-1 h-svh max-h-svh bg-light_grey">
-      <EditorNavbar />
-      <EditorContentContainer>
-        <form
-          id="editUserProfileForm"
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 bg-white flex-col gap-10 p-6 max-h-full overscroll-contain overflow-y-scroll scrollbar-none"
-        >
-          <div className="flex flex-col gap-2">
-            <h2 className="heading-base text-dark_grey">
-              Customize your links
-            </h2>
-            <p className="body-m text-grey">
-              Add/edit/remove links below and then share all your profiles with
-              the world!
-            </p>
-          </div>
-
-          <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
-            <label className="body-m text-grey">Profile picture</label>
-            <UploadPhotoProfile
-              name="photo_profile"
-              error={errors.photo_profile}
-              register={register}
-              value={file}
-              onChange={(file) => {
-                setFile(file);
-              }}
-            />
-          </div>
-
-          <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
-            <ProfileInput
-              register={register}
-              error={errors.first_name}
-              label="First name*"
-              placeholder="First name"
-              name="first_name"
-            />
-
-            <ProfileInput
-              register={register}
-              error={errors.last_name}
-              label="Last name*"
-              placeholder="Last name"
-              name="last_name"
-            />
-
-            <ProfileInput
-              disabled
-              register={register}
-              error={errors.email}
-              label="Email"
-              placeholder="Email"
-              name="email"
-            />
-          </div>
-        </form>
-        <div className="flex flex-col w-full">
-          <hr className="h-px bg-borders w-full" />
-          <div className="p-4">
-            <Button formId="editUserProfileForm">
-              {loading ? "Loading..." : "Save"}
-            </Button>
-          </div>
+    <EditorContentContainer>
+      <form
+        id="editUserProfileForm"
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-1 bg-white flex-col gap-10 p-6 max-h-full overscroll-contain overflow-y-scroll scrollbar-none"
+      >
+        <div className="flex flex-col gap-2">
+          <h2 className="heading-base text-dark_grey">Customize your links</h2>
+          <p className="body-m text-grey">
+            Add/edit/remove links below and then share all your profiles with
+            the world!
+          </p>
         </div>
-      </EditorContentContainer>
-    </main>
+
+        <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
+          <label className="body-m text-grey">Profile picture</label>
+          <UploadPhotoProfile
+            name="photo_profile"
+            error={errors.photo_profile}
+            register={register}
+            value={file}
+            onChange={(file) => {
+              setFile(file);
+            }}
+          />
+        </div>
+
+        <div className="p-5 flex flex-col gap-3 bg-light_grey rounded-[12px]">
+          <ProfileInput
+            register={register}
+            error={errors.first_name}
+            label="First name*"
+            placeholder="First name"
+            name="first_name"
+          />
+
+          <ProfileInput
+            register={register}
+            error={errors.last_name}
+            label="Last name*"
+            placeholder="Last name"
+            name="last_name"
+          />
+
+          <ProfileInput
+            disabled
+            register={register}
+            error={errors.email}
+            label="Email"
+            placeholder="Email"
+            name="email"
+          />
+        </div>
+      </form>
+      <div className="flex flex-col w-full">
+        <hr className="h-px bg-borders w-full" />
+        <div className="p-4">
+          <Button formId="editUserProfileForm">
+            {loading ? "Loading..." : "Save"}
+          </Button>
+        </div>
+      </div>
+    </EditorContentContainer>
   );
 }

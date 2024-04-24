@@ -26,7 +26,7 @@ const config: Config = {
       },
       screens: {
         "short-height-desktop": {
-          raw: "(max-height: 750px)",
+          raw: "(min-width: 640px) and (max-height: 750px)",
         },
         "medium-height-desktop": {
           raw: "(min-height: 750px) and (max-height: 900px)",
